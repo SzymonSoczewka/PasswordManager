@@ -14,8 +14,9 @@ class PasswordsTest < ApplicationSystemTestCase
     visit passwords_url
     click_on "New Password"
 
-    fill_in "Crypted password", with: @password.crypted_password
-    fill_in "Password salt", with: @password.password_salt
+    fill_in "Password", with: @password.password
+    fill_in "Site", with: @password.site
+    fill_in "Username", with: @password.username
     click_on "Create Password"
 
     assert_text "Password was successfully created"
@@ -26,8 +27,9 @@ class PasswordsTest < ApplicationSystemTestCase
     visit passwords_url
     click_on "Edit", match: :first
 
-    fill_in "Crypted password", with: @password.crypted_password
-    fill_in "Password salt", with: @password.password_salt
+    fill_in "Password", with: @password.password
+    fill_in "Site", with: @password.site
+    fill_in "Username", with: @password.username
     click_on "Update Password"
 
     assert_text "Password was successfully updated"

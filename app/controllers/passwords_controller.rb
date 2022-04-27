@@ -21,7 +21,11 @@ class PasswordsController < ApplicationController
 
   # POST /passwords or /passwords.json
   def create
+    
     @password = Password.new(password_params)
+    keys = Password.deriviate_key
+    @password.salt = keys.first
+    @password.password = keys.last
 
     respond_to do |format|
       if @password.save
@@ -65,6 +69,6 @@ class PasswordsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def password_params
-      params.require(:password).permit(:crypted_password, :password_salt)
+      params.require(:password).permit(:site, :username, :password)
     end
 end

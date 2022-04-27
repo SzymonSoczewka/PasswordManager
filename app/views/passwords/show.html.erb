@@ -1,13 +1,18 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Crypted password:</strong>
-  <%= @password.crypted_password %>
+  <strong>Site:</strong>
+  <%= @password.site %>
 </p>
 
 <p>
-  <strong>Password salt:</strong>
-  <%= @password.password_salt %>
+  <strong>Username:</strong>
+  <%= @password.username %>
+</p>
+
+<p>
+  <strong>Password:</strong>
+  <%= @password.password %>
 </p>
 
 <%= link_to 'Edit', edit_password_path(@password) %> |
