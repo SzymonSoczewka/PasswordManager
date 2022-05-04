@@ -1,4 +1,3 @@
-1. Authentication for user to log-in (No sign up page or anything like that). Maybe try https://github.com/heartcombo/devise ?
-2. Functionality for storing passwords for specific sites (e.g. Facebook, Google, etc.)
-3. Passwords stored as keys, encrypted with user password (master key) and server-side secret key
-4. Mechanizm to change master key
+1. We assume Secret Key stored on the machine has been generated while user signed up
+2. We use secret key along with user password to encrypt site-password to the db and to decrypt site-password from the db
+3. AES secret key we derive from system Secret key combined with user password hashed with MD5 Hash

@@ -4,7 +4,6 @@ class CreatePasswords < ActiveRecord::Migration[6.1]
       t.string :site, null: false
       t.string :username, null: false
       t.string :password, null: false
-      t.string :salt, null: false
 
       t.timestamps
     end

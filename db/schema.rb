@@ -16,7 +16,6 @@ ActiveRecord::Schema.define(version: 2022_04_27_082638) do
     t.string "site", null: false
     t.string "username", null: false
     t.string "password", null: false
-    t.string "salt", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

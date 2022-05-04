@@ -1,36 +1,34 @@
 class Password < ApplicationRecord
-  # before_save :deriviate_key
-  def deriviate_key
-    # raise self
-    # pass = "password"
-    salt = SecureRandom.random_bytes(16)
-    value = OpenSSL::KDF.scrypt(password, salt: salt, N: 2**14, r: 8, p: 1, length: 32)
+class KeyDeriviationException < StandardError; end  
+class EncryptionException < StandardError; end  
+class DecryptionException < StandardError; end
 
-    return [salt, value]
+before_save :encrypt_password
+  def encrypt_password
+    cipher = OpenSSL::Cipher::AES256.new(:CBC)
+    cipher.encrypt
+    cipher.key = encryption_key
+    cipher.iv = ENV['IV']
+    encrypted = cipher.update(self.password.to_s) + cipher.final
+    encrypted.force_encoding(Encoding::UTF_8)
+    self.password = encrypted
   end
 
-  # def set_password_and_salt
-  #   keys = deriviate_key
-
-  #   self.salt = keys.first
-  #   self.password = keys.last
-  # end
-  def self.deriviate_key
-    pass = "password"
-    salt = SecureRandom.random_bytes(16)
-    value = OpenSSL::KDF.scrypt(pass, salt: salt, N: 2**14, r: 8, p: 1, length: 32)
-    return [salt, value]
+  def decrypt_password
+    encrypted_password = self.password.force_encoding(Encoding::ASCII_8BIT)
+    decipher = OpenSSL::Cipher::AES256.new(:CBC)
+    decipher.decrypt
+    decipher.key = encryption_key
+    decipher.iv = ENV['IV']
+    
+    plain = decipher.update(password) + decipher.final
   end
-  # # Password.eql_time_cmp(Password.deriviate_key, Password.deriviate_key)
-  # def self.eql_time_cmp(a, b)
-  #   unless a.length == b.length
-  #     return false
-  #   end
-  #   cmp = b.bytes
-  #   result = 0
-  #   a.bytes.each_with_index {|c,i|
-  #     result |= c ^ cmp[i]
-  #   }
-  #   result == 0
-  # end
+  private def encryption_key
+    begin
+    system_secret_key = File.read('/Users/szymon/password_manager_secret_key.txt')
+    Digest::MD5.hexdigest ENV['USER_PASSWORD'] + system_secret_key
+    rescue => e
+      raise KeyDeriviationException
+    end
+  end
 end
