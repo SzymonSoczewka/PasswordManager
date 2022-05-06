@@ -62,6 +62,6 @@ class PasswordsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def password_params
-    params.require(:password).permit(:site, :username, :password)
+    params.require(:password).permit(:url, :username, :password)
   end
 end

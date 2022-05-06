@@ -12,10 +12,11 @@
 
 ActiveRecord::Schema.define(version: 20_220_427_082_638) do
   create_table 'passwords', force: :cascade do |t|
-    t.string 'site', null: false
+    t.string 'url', null: false
     t.string 'username', null: false
     t.string 'password', null: false
     t.datetime 'created_at', precision: 6, null: false
     t.datetime 'updated_at', precision: 6, null: false
   end
 end
+

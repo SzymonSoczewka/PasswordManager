@@ -15,7 +15,7 @@ class PasswordsTest < ApplicationSystemTestCase
     click_on 'New Password'
 
     fill_in 'Password', with: @password.password
-    fill_in 'Site', with: @password.site
+    fill_in 'Url', with: @password.url
     fill_in 'Username', with: @password.username
     click_on 'Create Password'
 
@@ -28,7 +28,7 @@ class PasswordsTest < ApplicationSystemTestCase
     click_on 'Edit', match: :first
 
     fill_in 'Password', with: @password.password
-    fill_in 'Site', with: @password.site
+    fill_in 'Url', with: @password.url
     fill_in 'Username', with: @password.username
     click_on 'Update Password'
 
