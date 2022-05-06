@@ -1,1 +1,1 @@
-json.array! @passwords, partial: "passwords/password", as: :password
+json.array! @passwords, partial: 'passwords/password', as: :password

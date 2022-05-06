@@ -1,1 +1,1 @@
-json.partial! "passwords/password", password: @password
+json.partial! 'passwords/password', password: @password
