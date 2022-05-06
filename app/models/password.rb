@@ -8,8 +8,9 @@ class Password < ApplicationRecord
     cipher = OpenSSL::Cipher.new('aes-256-cbc')
     cipher.encrypt
     cipher.key = encryption_key
-    cipher.iv = ENV['IV']
-    encrypted = cipher.update(password.to_s) + cipher.final
+    iv = cipher.random_iv
+    cipher.iv = iv
+    encrypted = cipher.update(password.to_s) + cipher.final + iv
     encrypted.force_encoding(Encoding::UTF_8)
     self.password = encrypted
   end
@@ -19,9 +20,8 @@ class Password < ApplicationRecord
     decipher = OpenSSL::Cipher.new('aes-256-cbc')
     decipher.decrypt
     decipher.key = encryption_key
-    decipher.iv = ENV['IV']
-
-    plain = decipher.update(password) + decipher.final
+    decipher.iv = encrypted_password.last(16)
+    plain = decipher.update(encrypted_password.first(16)) + decipher.final
   end
 
   private def encryption_key
